@@ -32,7 +32,10 @@ def get_comment_image(item_id,user_id):
     url='https://rate.taobao.com/feedRateList.htm?auctionNumId='+item_id+'&userNumId='+user_id+'&currentPageNum=1&pageSize=20&rateType=&orderType=sort_weight&showContent=1&attribute=&sku=&hasSku=false&folded=0&callback=jsonp_tbcrate_reviews_list'
     r=requests.get(url,proxies=proxy,headers=header,cookies=cookie)
     print r.content
-
+    Cont=r.content.relpace("","").relpace("","")
+    Print Cont
+Def get():
+    
 
 def get_item(url):
     r=requests.get(url)
