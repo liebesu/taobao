@@ -2,28 +2,18 @@
 import argparse
 import json
 import os
-<<<<<<< HEAD
 import random
-=======
->>>>>>> origin/master
 import re
 import urllib
 from bs4 import BeautifulSoup
 import requests
 import sys
-<<<<<<< HEAD
 import time
 
 __author__ = 'liebesu'
 
 reload(sys)
 sys.setdefaultencoding('utf8')
-=======
-__author__ = 'liebesu'
-
-reload(sys)
-sys.setdefaultencoding('utf8')   
->>>>>>> origin/master
 def get_category(name,url):
     r=requests.get(url)
     soup=BeautifulSoup(r.content,"html.parser")
@@ -57,7 +47,6 @@ def get_comment_json(name,item_id,user_id):
             reviews=r.content.replace("jsonp_tbcrate_reviews_list(","").replace(")","").decode("gbk").encode("utf-8")
             #print reviews
             json_reviews=json.loads(reviews,encoding="utf-8")
-
             file_save(name,item_id,user_id,json_reviews)
         elif "anti_Spider-checklogin" in r.content:
             print "fail"
@@ -81,36 +70,8 @@ def file_save(name,item_id,user_id,json):
 
 
 
-<<<<<<< HEAD
-=======
-    proxy={'http':"27.115.75.114:8080"}
-    for n in range(1,10):
-        url='https://rate.taobao.com/feedRateList.htm?auctionNumId='+item_id+'&userNumId='+user_id+'&currentPageNum='+str(n)+'&pageSize=20&rateType=&orderType=sort_weight&showContent=1&attribute=&sku=&hasSku=false&folded=0&callback=jsonp_tbcrate_reviews_list'
-        r=requests.get(url,proxies=proxy,headers=header,cookies=cookie)
-        if "jsonp_tbcrate_reviews_list" in r.content:
-            reviews=r.content.replace("jsonp_tbcrate_reviews_list(","").replace(")","").decode("gbk").encode("utf-8")
-            print reviews
-            json_reviews=json.loads(reviews,encoding="utf-8")
-            file_save(name,item_id,user_id,json_reviews)
-        else:
-            pass
-def file_save(name,item_id,user_id,json):
-    #name=name.dencode("").encode("utf-8")
-    if os.path.exists(os.path.join(name,item_id+"_"+user_id)):
-        pass
-    else:
-        os.makedirs(os.path.join(name,item_id+"_"+user_id))
-    for auction in  json['comments']:
-        if auction['photos']:
-            for photo in  auction['photos']:
-                urllib.urlretrieve("http:"+photo['url'].relpace("400x400","800x800"),os.path.join(name,item_id+"_"+user_id,os.path.basename(photo['url'])))
-
-
-
-
-
->>>>>>> origin/master
-
+def os_comand():
+    os.system("find . -type d -empty |xargs -i rm rf {}")
 
 def get_item(url):
     r=requests.get(url)
@@ -122,6 +83,7 @@ if __name__=='__main__':
     parser.add_argument("s",help="input commodity name")
     arg=parser.parse_args()
     name=arg.s
-    #url='https://s.taobao.com/search?q=树莓派3'
-    url='https://s.taobao.com/search?q='+name
+
+    url='https://s.taobao.com/search?q='+name+"&sort=sale-desc"
     get_category(name,url)
+    os_comand()
